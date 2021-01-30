@@ -9,3 +9,5 @@ Esta é uma nova versão do [antigo hunter](https://github.com/andrei-coelho/hun
 Na versão anterior haviam problemas de compatibilidade devido ao uso do programa phantom para realizar automações. O phantom foi descontinuado e com o advento dos frameworks frontend (react, vue, angular) ficou mais dificil manter e atualizar os recursos do APP. 
 
 Nesta nova versão, o hunter faz uso do selenium "sem cabeça" para realizar ações nas redes sociais. Além disso, o APP está muito mais organizado e voltado para o mercado.
+
+![fluxo de dados](fluxo_de_dados.png)
