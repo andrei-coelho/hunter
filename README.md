@@ -11,3 +11,9 @@ Na versão anterior haviam problemas de compatibilidade devido ao uso do program
 Nesta nova versão, o hunter faz uso do selenium "sem cabeça" para realizar ações nas redes sociais. Além disso, o APP está muito mais organizado e voltado para o mercado.
 
 ![fluxo de dados](fluxo_de_dados.png)
+
+# Outras Documentações
+
+- [API](https://github.com/andrei-coelho/hunter_api)
+
+- [Modelo ER](https://github.com/andrei-coelho/hunter_api/tree/master/sql)
