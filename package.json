@@ -1,0 +1,23 @@
+{
+  "name": "hunter",
+  "version": "2.0.0",
+  "description": "Hunter Bot 2.0",
+  "main": "hunter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrei-coelho/hunter.git"
+  },
+  "author": "Andrei Coelho",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andrei-coelho/hunter/issues"
+  },
+  "homepage": "https://github.com/andrei-coelho/hunter#readme",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "node-fetch": "^2.6.1"
+  }
+}

@@ -1,0 +1,6 @@
+{
+    "production": false,
+    "api_url_dev": "http://localhost/hunter_api/",
+    "api_url_prod": "http://apihunter.tecnologia.ws/",
+    "machine_key":"mach_45bf0ced883ac84065d354178b3e3828"
+}
