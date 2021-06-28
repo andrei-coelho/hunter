@@ -1,7 +1,8 @@
 const 
     config = require("./config"),
     fetch  = require('node-fetch'),
-    helper = require('../helpers/helper');
+    helper = require('./helpers/helper'),
+    log    = require('./helpers/log');
 
 
 const request = 
@@ -9,52 +10,38 @@ const request =
         fetch(conf.api_url + uri, data)
             .then(res => res.json())
             .then(json => callback(json))
-            .catch(error => console.log(error));
+            .catch(error => log.out(error));
 
 const _text = 
-    (uri, data, callback, conf) => 
+    (uri, data, callback, conf) =>
         fetch(conf.api_url + uri, data)
             .then(res => res.text())
             .then(text => callback(text))
-            .catch(error => console.log(error));
+            .catch(error => log.out(error));
+        
 
 
 const init = (uri, method, callback, vars, text = false) => {
-    
     config().then(conf => {
-    
+
         var data = {}
-
-        if(!helper.isEmpty(vars))
-            data.body = JSON.stringify(vars);
-        
+        vars['HUNTER-CHAVE-MACHINE'] = conf.machine
         data.method = method;
-        data.headers = {
-            'HUNTER-CHAVE-MACHINE': conf.machine
-        }
-
+        data.body = JSON.stringify(vars);
         text ? _text(uri, data, callback, conf) : request(uri, data, callback, conf);
 
-    }).catch(error => console.log(error))
+    }).catch(error => log.out(error))
     
 }
 
 
 module.exports = {
 
-    get : (uri, callback) => {
-        init(uri, 'get', callback, {})
-    },
-
-    post : (uri, vars, callback) => {
+    req : (uri, callback, vars = {}) => {
         init(uri, 'post', callback, vars)
     },
 
-    get_text : (uri, callback) => {
-        init(uri, 'get', callback, {}, true)
-    },
-
-    post_text : (uri, vars, callback) => {
+    req_text : (uri, vars, callback) => {
         init(uri, 'post', callback, vars, true)
     }
 

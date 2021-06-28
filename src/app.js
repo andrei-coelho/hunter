@@ -4,7 +4,7 @@ const
 
     config        = require('./config'),
     request       = require('./request'),
-    log           = require('../helpers/log'),
+    log           = require('./helpers/log'),
 
     count_args    = process.argv.length,
     args          = process.argv,
@@ -27,7 +27,6 @@ module.exports = _=> {
         
         case "-help": help(); break;
         case "-start": start(); break;
-        case "-automation": automation(); break;
         case "-test": test(); break;
             
         default: error(4);break;
@@ -37,26 +36,25 @@ module.exports = _=> {
 }
 
 const start = _ => {
+    
+    // se não houver um cliente específico, pegar todos os clientes
+    
     // em construção
     config().then(conf => {
-        request.get('clienteService/get/'+(client ? client : ""), res => {
+        request.req('clienteService/get/'+(client ? client : ""), res => {
             console.log(res);
         })
     })
-    under_construction();
+    // under_construction();
 }
 
-const automation = _ => {
-    // em construção
-    under_construction();
-}
 
 const test = _ => {
     var file = args[3];
     if(count_args == 5){
-        getClientExecute(args[4], (e, client) => {
+        getClientExecute(args[4], (e, clients) => {
             if (e) throw e;
-            (require('../test/'+file))(conf, client);
+            (require('../test/'+file))(conf, clients);
         });
         return;
     }
@@ -98,14 +96,13 @@ const help = ()=> {
     *                                                 *
     USO:`, "warning", false)
     log.out(`
-    $ node hunter [socialmedia] [command]
-    $ node hunter [socialmedia] [client] [command] 
+    $ node hunter [command]
     `, "info", false)
     log.out(`[command]`, "warning", false)
     log.out(`
     -help                 - "mostra as opções de comando"
-    -start                - "executa todos os clientes seguindo as configurações de cada um"
-    -automation [modules] - "executa um ou mais módulos manualmente de forma ordenada"
+    -start                - "executa todos os clientes ativos e suas redes 
+                             sociais seguindo as configurações de cada um"
     -test [file]          - "executa um arquivo de teste em ./test/"
     `, "info", false)
     log.out(`[modules]`, "warning", false)

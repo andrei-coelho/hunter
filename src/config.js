@@ -1,6 +1,6 @@
 const 
     config = {},
-    helper = require("../helpers/helper"),
+    helper = require("./helpers/helper"),
     fs     = require('fs');
 
 function loader(){
