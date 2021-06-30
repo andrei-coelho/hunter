@@ -2,26 +2,20 @@
 
 const 
 
-    config        = require('./config'),
-    request       = require('./request'),
     log           = require('./helpers/log'),
-
     count_args    = process.argv.length,
-    args          = process.argv,
-    modules_test  = ['search', 'friends', 'login', 'messenger'];
+    args          = process.argv;
 
-var socail_media, command, client = false;
+var command, client = false;
 
 module.exports = _=> {
     
-    if(count_args < 4) error();
-    
-    socail_media = args[2];
+    if(count_args < 3) error();
 
-    count_args == 5 ? (function(){
-           client  = args[3];
-           command = args[4];
-    })() : command = args[3];
+    count_args == 4 ? (function(){
+           command  = args[2];
+           file     = args[3];
+    })() : command  = args[2];
 
     switch (command) {
         
@@ -35,19 +29,7 @@ module.exports = _=> {
     
 }
 
-const start = _ => {
-    
-    // se não houver um cliente específico, pegar todos os clientes
-    
-    // em construção
-    config().then(conf => {
-        request.req('clienteService/get/'+(client ? client : ""), res => {
-            console.log(res);
-        })
-    })
-    // under_construction();
-}
-
+const start = _ => (require('./modules/controller'))()
 
 const test = _ => {
     var file = args[3];

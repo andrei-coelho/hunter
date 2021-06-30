@@ -7,7 +7,7 @@ function loader(){
 
     return new Promise(res => {
 
-        if(helper.isEmpty(config))
+        if(helper.isEmpty(config)){
             
             fs.readFile("./storage/conf.json", (e, data) => {
 
@@ -21,7 +21,9 @@ function loader(){
 
             });
 
-        else res(config);
+        } else {
+            res(config);
+        }
 
     })
 }
