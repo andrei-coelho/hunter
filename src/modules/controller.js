@@ -20,13 +20,15 @@ module.exports = async _ => {
             cli   = new Cliente(cl),
             resAc = await request('accountsService/get', {clientSlug:cli.slug}),
             resPs = await request('profilesService/get', {clientSlug:cli.slug});
+            resAs = await request('actionsService/getMapActionsDay', {clientSlug:cli.slug});
         
-        if(resAc.code != 200 || resPs.code != 200){
+        if(resAc.code != 200 || resPs.code != 200 || resAs.code != 200){
             log.out(`O servidor repondeu com um codigo diferente de 200 - Controller 25`, "danger");
         }
         
         cli.setAccounts(resAc.data);
         cli.setProfiles(resPs.data);
+        cli.setMapActions(resPs.data);
         clientes.list.push(cli);
 
     }
