@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs');
 
 module.exports = async accounts => {
 
@@ -11,9 +11,7 @@ module.exports = async accounts => {
             try {
                 if (!fs.existsSync(path)){
                     // faz o login e gera o cookie 
-                    await fs.writeFile(path, `{"teste":"oi"}`, function (err) {
-                        if (err) throw err;
-                    });
+                    
                 }
                 // verifica se a conta está ok
                 if(checkLogin(path)){

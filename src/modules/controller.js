@@ -2,6 +2,8 @@ const
     request  = require('../request'),
     log      = require('../helpers/log'),
     Cliente  = require('../model/Cliente'),
+    driverC  = require('../driver/driver'),
+    AccountCliente = require('../model/AccountCliente'),
 
     // modulos
     login    = require('./login'),
@@ -30,13 +32,20 @@ module.exports = async _ => {
             log.out(`O servidor repondeu com um codigo diferente de 200 - Controller 25`, "danger");
         }
         
-        cli.setAccounts(resAc.data);
+        for (let l = 0; l < resAc.data.length; l++) {
+            let account = new AccountCliente(resAc.data[l]);
+            let driver  = await driverC(account)
+            account.setDriver(driver);
+            cli.addAccount(account);
+        }
+
+        // console.log(resPs.data);
+
         cli.setProfiles(resPs.data);
         cli.setMapActions(resAs.data);
         clientes.list.push(cli);
 
         await login(cli.getAccounts());
-        console.log("acabou!");
 
         // console.log(clientes.list[0].profilesToAnalysis.twitter[0].for);
 

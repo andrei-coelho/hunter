@@ -1,5 +1,4 @@
 const request = require('../request'),
-      AccountCliente = require('../model/AccountCliente'),
       ProfileCliente = require('../model/ProfileCliente');
 
 const Cliente = function(json, id_key){
@@ -36,6 +35,10 @@ Cliente.prototype.getAccounts = function(){
 
 Cliente.prototype.setMapActions = function(map){
     this.mapActions = map;
+}
+
+Cliente.prototype.addAccount = function(account){
+    this.accounts[account.redeSocial].push(account)
 }
 
 Cliente.prototype.setProfiles = function(profiles){

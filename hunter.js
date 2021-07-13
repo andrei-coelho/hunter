@@ -22,6 +22,5 @@
  * 
  * 
  * */
- var path = require('path');
- global.appRoot = path.resolve(__dirname);
+ global.appRoot = require('path').resolve(__dirname);
  (require("./src/app"))()
