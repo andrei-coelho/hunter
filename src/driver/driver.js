@@ -19,8 +19,7 @@ const constr = async function(account){
     driver.redeSocial   = account.redeSocial;
     driver.emailAccount = account.email;
     driver.senhaAccount = account.senha;
-    driver.cookieFile   = global.appRoot+'/storage/cookies/'+driver.redeSocial+'/'+driver.emaiAccount+".json";
-
+    driver.cookieFile   = global.appRoot+'/storage/cookies/'+driver.redeSocial+'/'+driver.emailAccount+".json";
     driver.saveState = async function(){
 
         await setTimeout(async _ => {
@@ -47,7 +46,7 @@ const constr = async function(account){
         let data = JSON.parse(fs.readFileSync(driver.cookieFile, 'utf8'));
         for (let i = 0; i < data.length; i++) {
             await driver.manage().addCookie( data[i]);
-        }
+        }   
     }
 
     // await redeSocialLib.login(driver);

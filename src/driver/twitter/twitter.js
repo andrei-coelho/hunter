@@ -1,11 +1,12 @@
 const fs = require("fs");
+const { By } = require('selenium-webdriver');
 
 module.exports = {
 
     name: "twitter",
     url: "https://www.twitter.com/",
 
-    login: async (driver) => {
+    login: async driver => {
 
         await setTimeout(async _ => {
     
@@ -30,15 +31,27 @@ module.exports = {
         }, 1500);
     },
 
-    warmup: _ => {
+    checkLogin: async driver =>{
+        var status = true;
+        await setTimeout(async () => {
+            try {
+                driver.findElement(By.id("layers"))
+            } catch (error) {
+                status = false;
+            }
+        }, 1000);
+        return status;
+    },
+
+    warmup: driver => {
         
     },
 
-    analysis: _ => {
+    analysis: driver => {
         
     },
 
-    actions: action => {
+    actions: (driver, action) => {
         
     }
 

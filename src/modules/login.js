@@ -8,27 +8,16 @@ module.exports = async accounts => {
             
             const path = global.appRoot+'/storage/cookies/'+socialMedia+'/'+account.email+".json";
             
-            try {
-                if (!fs.existsSync(path)){
-                    // faz o login e gera o cookie 
-                    
-                }
-                // verifica se a conta está ok
-                if(checkLogin(path)){
-                    console.log("ok");
-                }
-
-            } catch(err) {
-                throw err;
+            let script = require('../driver/'+socialMedia+'/'+socialMedia);
+                
+            if (!fs.existsSync(path)){
+                await script.login(account.driver)
             }
+
+            account.logged = await script.checkLogin(account.driver);
         
         })
 
     })
 
-}
-
-
-function checkLogin(file) {
-    return true;
 }
