@@ -20,6 +20,7 @@ const constr = async function(account){
     driver.emailAccount = account.email;
     driver.senhaAccount = account.senha;
     driver.cookieFile   = global.appRoot+'/storage/cookies/'+driver.redeSocial+'/'+driver.emailAccount+".json";
+    
     driver.saveState = async function(){
 
         await setTimeout(async _ => {

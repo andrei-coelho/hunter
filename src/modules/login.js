@@ -1,20 +1,23 @@
-const fs = require('fs');
+const log = require('../helpers/log');
 
 module.exports = async accounts => {
 
     await Object.keys(accounts).forEach( async socialMedia => {
 
         await accounts[socialMedia].forEach( async account => {
-            
-            const path = global.appRoot+'/storage/cookies/'+socialMedia+'/'+account.email+".json";
-            
+             
             let script = require('../driver/'+socialMedia+'/'+socialMedia);
-                
-            if (!fs.existsSync(path)){
-                await script.login(account.driver)
+            account.logged = await script.checkLogin(account.driver);
+
+            if (!account.logged){
+                console.log("precisa logar...");
+                account.logged = await script.login(account.driver, path)
             }
 
-            account.logged = await script.checkLogin(account.driver);
+            if(!account.logged){
+                log.out("Erro ao tentar logar na conta: "+account.email);
+                throw "err";
+            }
         
         })
 

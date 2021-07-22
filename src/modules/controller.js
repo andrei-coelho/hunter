@@ -39,16 +39,12 @@ module.exports = async _ => {
             cli.addAccount(account);
         }
 
-        // console.log(resPs.data);
-
         cli.setProfiles(resPs.data);
         cli.setMapActions(resAs.data);
         clientes.list.push(cli);
 
         await login(cli.getAccounts());
-
-        // console.log(clientes.list[0].profilesToAnalysis.twitter[0].for);
-
+        
     }
 
     
