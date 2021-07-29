@@ -3,24 +3,20 @@
 const 
 
     log           = require('./helpers/log'),
+    controller    = require('./modules/controller'),
     count_args    = process.argv.length,
     args          = process.argv;
 
-var command, client = false;
 
 module.exports = _=> {
     
     if(count_args < 3) error();
 
-    count_args == 4 ? (function(){
-           command  = args[2];
-           file     = args[3];
-    })() : command  = args[2];
-
-    switch (command) {
+    switch (args[2]) {
         
         case "-help": help(); break;
         case "-start": start(); break;
+        case "-open": open(); break;
         case "-test": test(); break;
             
         default: error(4); break;
@@ -29,7 +25,16 @@ module.exports = _=> {
     
 }
 
-const start = _ => (require('./modules/controller'))()
+const start = _ => controller.start()
+
+const open  = _ => {
+    // node hunter -open client_slug account
+    if(count_args < 5) {
+        log.out("A quantidade de argumento nao é válido");
+        return;
+    }
+    controller.open(args[3], args[4])
+}
 
 const test = _ => {
     var file = args[3];

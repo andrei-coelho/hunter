@@ -11,12 +11,13 @@ module.exports = async accounts => {
 
             if (!account.logged){
                 console.log("precisa logar...");
-                account.logged = await script.login(account.driver, path)
-            }
-
-            if(!account.logged){
-                log.out("Erro ao tentar logar na conta: "+account.email);
-                throw "err";
+                await script.login(account.driver);
+                account.logged = await script.checkLogin(account.driver);
+                
+                if(!account.logged){
+                    log.out("Erro ao tentar logar na conta: "+account.email);
+                    throw "err";
+                }
             }
         
         })

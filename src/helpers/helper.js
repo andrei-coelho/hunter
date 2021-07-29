@@ -6,6 +6,8 @@ module.exports = {
                 return false;
         }
         return true;
-    }
+    },
+
+    sleep: m => new Promise(r => setTimeout(r, m))
 
 }

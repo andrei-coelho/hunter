@@ -1,50 +1,42 @@
-const fs = require("fs");
-const { By } = require('selenium-webdriver');
+const fs     = require("fs"),
+      helper = require("../../helpers/helper"),
+      { By, Key } = require('selenium-webdriver');
+
+const data = {
+    name: "twitter",
+    url: "https://www.twitter.com/"
+};
+
 
 module.exports = {
 
-    name: "twitter",
-    url: "https://www.twitter.com/",
+    name: data.name,
+    url: data.url,
 
-    login: async (driver) => {
+    login: async driver => {
 
-        console.log("logando...");
+        await helper.sleep(1500);
+        await driver.get(data.url+"login");
 
-        await setTimeout(async _ => {
-    
-            await driver.get(this.url+"login");
-
-            await setTimeout(async _ => {
+        await helper.sleep(1000);
+        await driver.findElement(By.name("session[username_or_email]"))
+            .sendKeys(driver.emailAccount);
+        await driver.findElement(By.name("session[password]"))
+            .sendKeys(driver.senhaAccount, Key.ENTER);
         
-                await driver.findElement(By.name("session[username_or_email]"))
-                    .sendKeys(profileCliente.email);
-                await driver.findElement(By.name("session[password]"))
-                    .sendKeys(profileCliente.senha, Key.ENTER);
-
-                await setTimeout(async _ => {
-                    await driver.saveState();
-                }, 1000);
-
-            }, 1000);
-
-        }, 1500);
-
-        return await this.checkLogin(driver);
+        await helper.sleep(1000);
+        await driver.saveState();
 
     },
 
     checkLogin: async driver =>{
-        
         var status = true;
-        
-        await setTimeout(async () => {
-            try {
-                driver.findElement(By.id("layers")).getText();
-            } catch (error) {
-                status = false;
-            }
-        }, 1000);
-
+        await helper.sleep(1000);
+        try {
+            await driver.findElement(By.id("layers")).getText();
+        } catch (error) {
+            status = false;
+        }
         return status;
     },
 
@@ -54,6 +46,10 @@ module.exports = {
 
     analysis: driver => {
         
+    },
+
+    follow: driver => {
+
     },
 
     actions: (driver, action) => {
