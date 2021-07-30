@@ -1,7 +1,7 @@
 const log = require('../helpers/log');
 
 module.exports = async accounts => {
-
+    
     await Object.keys(accounts).forEach( async socialMedia => {
 
         await accounts[socialMedia].forEach( async account => {
@@ -10,7 +10,6 @@ module.exports = async accounts => {
             account.logged = await script.checkLogin(account.driver);
 
             if (!account.logged){
-                console.log("precisa logar...");
                 await script.login(account.driver);
                 account.logged = await script.checkLogin(account.driver);
                 

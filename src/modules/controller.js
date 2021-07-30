@@ -32,6 +32,8 @@ module.exports =  {
             
             if(resAc.code != 200 || resPs.code != 200 || resAs.code != 200){
                 log.out(`O servidor repondeu com um codigo diferente de 200 - Controller 25`, "danger");
+                console.log(resAc, resPs, resAs);
+                return;
             }
             
             for (let l = 0; l < resAc.data.length; l++) {
@@ -50,8 +52,27 @@ module.exports =  {
         }
     },
 
-    open: async function(client, account){
-        let resClients = await request('accountsService/get/', {clientSlug:client, accountSlug: account});
+    open: async function(client, account, socialmedia){
+        
+        let resClients = await request('accountsService/getAccount', {
+            clientSlug:client, 
+            accountSlug: account, 
+            socialMediaSlug:socialmedia
+        });
+
+        if(resClients.code != 200){
+            log.out(resClients.data.message, "danger");
+        }
+
+        acc = resClients.data[0];
+        let acct    = new AccountCliente(acc);
+        let driver  = await driverC(acct)
+        acct.setDriver(driver);
+        let obj = {};
+        obj[socialmedia] = [acct];
+
+        await login(obj);
 
     }
+    
 }

@@ -29,11 +29,11 @@ const start = _ => controller.start()
 
 const open  = _ => {
     // node hunter -open client_slug account
-    if(count_args < 5) {
+    if(count_args < 6) {
         log.out("A quantidade de argumento nao é válido");
         return;
     }
-    controller.open(args[3], args[4])
+    controller.open(args[3], args[4], args[5])
 }
 
 const test = _ => {
