@@ -22,6 +22,7 @@ const Cliente = function(json, id_key){
         instagram:[]
     }
    
+    this.ancorsProfiles = []
     this.mapActions = []
 }
 
@@ -39,6 +40,10 @@ Cliente.prototype.setMapActions = function(map){
 
 Cliente.prototype.addAccount = function(account){
     this.accounts[account.redeSocial].push(account)
+}
+
+Cliente.prototype.setAncorsProfiles = function (profiles){
+    this.ancorsProfiles = profiles;
 }
 
 Cliente.prototype.setProfiles = function(profiles){

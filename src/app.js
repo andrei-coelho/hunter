@@ -28,7 +28,7 @@ module.exports = _=> {
 const start = _ => controller.start()
 
 const open  = _ => {
-    // node hunter -open client_slug account
+    // node hunter -open client_slug account socialmedia
     if(count_args < 6) {
         log.out("A quantidade de argumento nao é válido");
         return;

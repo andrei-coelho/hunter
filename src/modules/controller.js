@@ -29,10 +29,11 @@ module.exports =  {
                 resAc = await request('accountsService/get', {clientSlug:cli.slug}),
                 resPs = await request('profilesService/get', {clientSlug:cli.slug});
                 resAs = await request('actionsService/getMapActionsDay', {clientSlug:cli.slug});
-            
-            if(resAc.code != 200 || resPs.code != 200 || resAs.code != 200){
+                resPa = await request('ProfilesService/getPerfisAncoras', {clientSlug:cli.slug});
+
+            if(resAc.code != 200 || resPs.code != 200 || resAs.code != 200 || resPa.code != 200){
                 log.out(`O servidor repondeu com um codigo diferente de 200 - Controller 25`, "danger");
-                console.log(resAc, resPs, resAs);
+                console.log(resAc, resPs, resAs, resPa);
                 return;
             }
             
@@ -45,11 +46,19 @@ module.exports =  {
 
             cli.setProfiles(resPs.data);
             cli.setMapActions(resAs.data);
+            cli.setAncorsProfiles(resPa.data);
             clientes.list.push(cli);
+
+            console.log(cli);
 
             await login(cli.getAccounts());
             
         }
+
+    },
+
+    open_ip: async function(ip){
+
     },
 
     open: async function(client, account, socialmedia){
