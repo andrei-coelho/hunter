@@ -1,3 +1,5 @@
+const { Actions } = require('selenium-webdriver');
+
 const 
     request  = require('../request'),
     log      = require('../helpers/log'),
@@ -7,6 +9,7 @@ const
 
     // modulos
     login    = require('./login'),
+    actions  = require('./actions'),
     
     clientes = {list:[]};
 
@@ -27,11 +30,11 @@ module.exports =  {
             let cl    = resClients.data[i],
                 cli   = new Cliente(cl, i),
                 resAc = await request('accountsService/get', {clientSlug:cli.slug}),
+                resAs = await request('actionsService/getActionsClient', {clientSlug:cli.slug}),
                 resPs = await request('profilesService/get', {clientSlug:cli.slug});
-                resAs = await request('actionsService/getMapActionsDay', {clientSlug:cli.slug});
-                resPa = await request('ProfilesService/getPerfisAncoras', {clientSlug:cli.slug});
+                resPa = await request('profilesService/getPerfisAncoras', {clientSlug:cli.slug});
 
-            if(resAc.code != 200 || resPs.code != 200 || resAs.code != 200 || resPa.code != 200){
+            if(resAc.code != 200 || resAs.code != 200 || resPs.code != 200 || resPa.code != 200){
                 log.out(`O servidor repondeu com um codigo diferente de 200 - Controller 25`, "danger");
                 console.log(resAc, resPs, resAs, resPa);
                 return;
@@ -43,22 +46,25 @@ module.exports =  {
                 account.setDriver(driver);
                 cli.addAccount(account);
             }
-
+            
             cli.setProfiles(resPs.data);
-            cli.setMapActions(resAs.data);
             cli.setAncorsProfiles(resPa.data);
+            cli.setActionsClient(resAs.data);
             clientes.list.push(cli);
 
-            console.log(cli);
-
-            await login(cli.getAccounts());
+            cli.getAccounts().twitter.forEach(ac => {
+                console.log(ac.actions_today);
+            });
             
+            // await login(cli.getAccounts());
+            // actions(cli)
+   
         }
 
     },
 
     open_ip: async function(ip){
-
+        
     },
 
     open: async function(client, account, socialmedia){
@@ -73,7 +79,7 @@ module.exports =  {
             log.out(resClients.data.message, "danger");
         }
 
-        acc = resClients.data[0];
+        acc         = resClients.data[0];
         let acct    = new AccountCliente(acc);
         let driver  = await driverC(acct)
         acct.setDriver(driver);

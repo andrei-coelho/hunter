@@ -23,7 +23,7 @@ const Cliente = function(json, id_key){
     }
    
     this.ancorsProfiles = []
-    this.mapActions = []
+    this.actionsClient  = []
 }
 
 Cliente.prototype.setAccounts = function(accounts){
@@ -34,8 +34,8 @@ Cliente.prototype.getAccounts = function(){
     return this.accounts;
 }
 
-Cliente.prototype.setMapActions = function(map){
-    this.mapActions = map;
+Cliente.prototype.setActionsClient = function(actions){
+    this.actionsClient = actions;
 }
 
 Cliente.prototype.addAccount = function(account){

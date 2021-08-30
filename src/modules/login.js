@@ -10,13 +10,15 @@ module.exports = async accounts => {
             account.logged = await script.checkLogin(account.driver);
 
             if (!account.logged){
+
                 await script.login(account.driver);
                 account.logged = await script.checkLogin(account.driver);
                 
                 if(!account.logged){
-                    log.out("Erro ao tentar logar na conta: "+account.email);
+                    log.out("Erro ao tentar logar! conta: "+account.email+" | rede social: "+socialMedia);
                     throw "err";
                 }
+                
             }
         
         })

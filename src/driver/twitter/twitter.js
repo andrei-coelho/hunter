@@ -38,22 +38,6 @@ module.exports = {
             status = false;
         }
         return status;
-    },
-
-    warmup: driver => {
-        
-    },
-
-    analysis: driver => {
-        
-    },
-
-    follow: driver => {
-
-    },
-
-    actions: (driver, action) => {
-        
     }
 
 }
