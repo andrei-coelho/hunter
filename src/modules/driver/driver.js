@@ -1,12 +1,12 @@
 const 
     { Builder } = require('selenium-webdriver'),
     firefox     = require('selenium-webdriver/firefox'),
-    config      = require("../config"),
+    config      = require("../../config"),
     fs          = require("fs");
 
 const constr = async function(account){
     
-    let redeSocialLib = require('./'+account.redeSocial+'/'+account.redeSocial);
+    let redeSocialLib = require('./'+account.redeSocial);
    
     let status = await config().production;
     var driver = await new Builder().forBrowser('firefox');

@@ -1,10 +1,9 @@
-const { Actions } = require('selenium-webdriver');
 
 const 
     request  = require('../request'),
     log      = require('../helpers/log'),
     Cliente  = require('../model/Cliente'),
-    driverC  = require('../driver/driver'),
+    driverC  = require('./driver/driver'),
     AccountCliente = require('../model/AccountCliente'),
 
     // modulos
@@ -56,8 +55,8 @@ module.exports =  {
                 console.log(ac.actions_today);
             });
             
-            // await login(cli.getAccounts());
-            // actions(cli)
+            await login(cli.getAccounts());
+            actions(cli)
    
         }
 

@@ -6,7 +6,7 @@ module.exports = async accounts => {
 
         await accounts[socialMedia].forEach( async account => {
              
-            let script = require('../driver/'+socialMedia+'/'+socialMedia);
+            let script = require('./driver/'+socialMedia);
             account.logged = await script.checkLogin(account.driver);
 
             if (!account.logged){
@@ -18,7 +18,7 @@ module.exports = async accounts => {
                     log.out("Erro ao tentar logar! conta: "+account.email+" | rede social: "+socialMedia);
                     throw "err";
                 }
-                
+
             }
         
         })

@@ -34,6 +34,10 @@ Cliente.prototype.getAccounts = function(){
     return this.accounts;
 }
 
+Cliente.prototype.getActionsClient = function(){
+    return this.actionsClient;
+}
+
 Cliente.prototype.setActionsClient = function(actions){
     this.actionsClient = actions;
 }

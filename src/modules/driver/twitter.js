@@ -1,17 +1,13 @@
-const fs     = require("fs"),
-      helper = require("../../helpers/helper"),
-      { By, Key } = require('selenium-webdriver');
-
-const data = {
-    name: "twitter",
-    url: "https://www.twitter.com/"
-};
+const 
+    helper = require("../../helpers/helper"),
+    { By, Key } = require('selenium-webdriver');
 
 
 module.exports = {
 
-    name: data.name,
-    url: data.url,
+    name: "twitter",
+    url: "https://www.twitter.com/",
+
 
     login: async driver => {
 
@@ -29,6 +25,7 @@ module.exports = {
 
     },
 
+
     checkLogin: async driver =>{
         var status = true;
         await helper.sleep(1000);
@@ -40,4 +37,5 @@ module.exports = {
         return status;
     }
 
+    
 }
