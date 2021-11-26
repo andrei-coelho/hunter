@@ -17,6 +17,7 @@ module.exports = _=> {
         case "-help": help(); break;
         case "-start": start(); break;
         case "-open": open(); break;
+        case "-build": build(); break;
         case "-test": test(); break;
             
         default: error(4); break;
@@ -26,6 +27,16 @@ module.exports = _=> {
 }
 
 const start = _ => controller.start()
+
+const build = _ => {
+
+    // node hunter -build client_slug account socialmedia
+    if(count_args < 6) {
+        log.out("A quantidade de argumento nao é válido");
+        return;
+    }
+    controller.build(args[3], args[4], args[5])
+}
 
 const open  = _ => {
     // node hunter -open client_slug account socialmedia

@@ -55,13 +55,17 @@ Cliente.prototype.setProfiles = function(profiles){
     profiles.forEach( el => {
         if(el.status == 1)
             this.profilesToFollow[el.redeSocial].push(new ProfileCliente(el))
-        if(el.status == 2)
-            this.profilesToAnalysis[el.redeSocial].push({
-                for: this.accounts[el.redeSocial].filter(obj => {
-                    return obj.id === el.follow
-                  })[0].email,
-                profile:new ProfileCliente(el)
-            })
+        if(el.status == 2){
+            let accto = this.accounts[el.redeSocial].filter(obj => {
+                return obj.id === el.follow
+            })[0];
+            if(accto != undefined){
+                this.profilesToAnalysis[el.redeSocial].push({
+                    for: accto,
+                    profile:new ProfileCliente(el)
+                })
+            }
+        }
     })
 }
 
