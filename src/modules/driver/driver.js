@@ -21,7 +21,9 @@ const constr = async function(account){
     driver.redeSocial   = account.redeSocial;
     driver.emailAccount = account.email;
     driver.senhaAccount = account.senha;
-    driver.cookieFile   = global.appRoot+'/storage/cookies/'+driver.redeSocial+'/'+driver.emailAccount+".json";
+    driver.cookiesDir   = global.appRoot+'/storage/cookies/';
+    driver.cookieDir    = driver.cookiesDir+driver.redeSocial+'/';
+    driver.cookieFile   = driver.cookieDir+'/'+driver.emailAccount+".json";
     
     driver.saveState = async function(){
 
@@ -35,10 +37,14 @@ const constr = async function(account){
                     })
                 : cookies.sameSite = "Lax";
                 
+                if (!fs.existsSync(driver.cookiesDir)) fs.mkdirSync(driver.cookiesDir);
+                if (!fs.existsSync(driver.cookieDir)) fs.mkdirSync(driver.cookieDir);
+                
                 fs.writeFile(this.cookieFile, JSON.stringify(cookies), err => {
                     if (err) return console.log(err);
                     // console.log("Novos cookies salvos");
                 });
+                
             })
     
         }, 1000);
