@@ -1,6 +1,8 @@
 const log = require('../helpers/log');
 
 module.exports = async accounts => {
+
+    console.log("Entrando nas redes sociais...");
     
     await Object.keys(accounts).forEach( async socialMedia => {
 

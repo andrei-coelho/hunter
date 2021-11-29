@@ -13,9 +13,11 @@ const
         init: async _ => {
             // gera os limites atuais para que as ações diarias não ultrapassem 
         },
+
+        action_follow: async _=>{},
     
         login: async driver => {
-    
+
             await helper.sleep(1500);
 
             await driver.get(model['url']+"login");

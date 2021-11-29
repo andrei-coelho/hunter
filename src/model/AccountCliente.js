@@ -7,4 +7,8 @@ AccountClient.prototype.setDriver = function(driver){
     this.driver = driver;
 }
 
+AccountClient.prototype.toFollow = function(profilesClient){
+    this.profilesToFollow = profilesClient;
+}
+
 module.exports = AccountClient;

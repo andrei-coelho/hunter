@@ -21,9 +21,9 @@ const constr = async function(account){
     driver.redeSocial   = account.redeSocial;
     driver.emailAccount = account.email;
     driver.senhaAccount = account.senha;
-    driver.cookiesDir   = global.appRoot+'/storage/cookies/';
-    driver.cookieDir    = driver.cookiesDir+driver.redeSocial+'/';
-    driver.cookieFile   = driver.cookieDir+'/'+driver.emailAccount+".json";
+    driver.cookiesDir   = global.appRoot+'\\storage\\cookies\\';
+    driver.cookieDir    = driver.cookiesDir+driver.redeSocial+'\\';
+    driver.cookieFile   = driver.cookieDir+driver.emailAccount+".json";
     
     driver.saveState = async function(){
 

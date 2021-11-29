@@ -28,10 +28,10 @@ start_list_clients = async (slug = "") => {
             cli   = new Cliente(cl, i),
             resAc = await request('accountsService/get', {clientSlug:cli.slug}),
             resAs = await request('actionsService/getActionsClient', {clientSlug:cli.slug}),
-            resPs = await request('profilesService/get', {clientSlug:cli.slug});
+            resPs = await request('profilesService/get', {clientSlug:cli.slug}),
             resPa = await request('profilesService/getPerfisAncoras', {clientSlug:cli.slug});
 
-        if(resAc.code != 200 || resAs.code != 200 || resPs.code != 200 || resPa.code != 200){
+         if(resAc.code != 200 || resAs.code != 200 || resPs.code != 200 || resPa.code != 200){
             log.out(`O servidor repondeu com um codigo diferente de 200 - Controller 25`, "danger");
             console.log(resAc, resPs, resAs, resPa);
             return;
@@ -58,7 +58,7 @@ module.exports =  {
     start: async function(){
 
         await start_list_clients();
-
+    
         for (let i = 0; i < clientes.length; i++) {
             const cli = clientes.list[i];
             cli.getAccounts().twitter.forEach(ac => {
