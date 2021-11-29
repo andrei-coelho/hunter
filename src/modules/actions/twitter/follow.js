@@ -18,7 +18,6 @@ module.exports = async (perfilASeguir, conta, clientSlug) => {
     while(!elementPresent){
         try {
             await driver.findElement(By.xpath("//*[@data-testid='placementTracking']"));
-            await driver.findElement(By.xpath("//*[@href='/"+perfilASeguir.slug+"/followers']"));
             elementPresent = true;
         } catch(e){
             await helper.sleep(1000);
@@ -30,13 +29,28 @@ module.exports = async (perfilASeguir, conta, clientSlug) => {
         } 
     }
 
-    let texto = await driver.findElement(By.xpath("//*[@href='/"+perfilASeguir.slug+"/followers']")).getText();
-    if(parseInt(texto.split(" ")[0].replace(/\./gi, "")) < 20){
-        // let resp = await request("")
-        return {follow:false, save:false};
+    count = 0;
+    elementPresent = false;
+    while(!elementPresent){
+        try {
+            await driver.findElement(By.xpath("//*[@href='/"+perfilASeguir.slug+"/followers']"));
+            let texto = await driver.findElement(By.xpath("//*[@href='/"+perfilASeguir.slug+"/followers']")).getText();
+            if(parseInt(texto.split(" ")[0].replace(/\./gi, "")) < 20){
+                // let resp = await request("")
+                return {follow:false, save:false};
+            }
+            elementPresent = true;
+        } catch(e){
+            await helper.sleep(1000);
+            count++;
+        }
+        if(count == 5){
+            elementPresent = true;
+        } 
+        
     }
- 
 
+    
     if(status){
         try {
 
@@ -61,6 +75,8 @@ module.exports = async (perfilASeguir, conta, clientSlug) => {
     })
 
     console.log(resp);
+
+    console.log("seguiu: "+perfilASeguir.slug);
     
     return {follow:true, save:resp.code == 200} ;
     

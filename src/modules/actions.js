@@ -12,7 +12,7 @@ module.exports = async cli => {
     const seconds = 174; // quantidade de segundos de espera por conta
 
     // variaveis a serem apagadas
-    const maxToFollow = 10; // maximo de seguidores para seguir em teste
+    const maxToFollow = 80; // maximo de seguidores para seguir em teste
     var seguidorAtual = 0;
 
     for (let i = 0; i < redes.length; i++) {

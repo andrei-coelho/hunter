@@ -11,7 +11,7 @@ const constr = async function(account){
     let status = await config().production;
     var driver = await new Builder().forBrowser('firefox');
     
-    //driver = driver.setFirefoxOptions(new firefox.Options().headless());
+    driver = driver.setFirefoxOptions(new firefox.Options().headless());
 
     if(status){
         driver = driver.setFirefoxOptions(new firefox.Options().headless());
