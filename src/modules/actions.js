@@ -4,7 +4,7 @@ const helper = require("../helpers/helper");
 module.exports = async cli => {
 
     console.log("Iniciando ação de seguir...");
-
+    
     const contas = cli.accounts;
     const perfisASeguir = cli.profilesToFollow;
     const redes = Object.keys(contas);

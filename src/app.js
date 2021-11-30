@@ -18,6 +18,7 @@ module.exports = _=> {
         case "-start": start(); break;
         case "-open": open(); break;
         case "-build": build(); break;
+        case "-login": login(); break;
         case "-test": test(); break;
             
         default: error(4); break;
@@ -57,6 +58,10 @@ const test = _ => {
         return;
     }
     (require('../test/'+file))(conf);
+}
+
+const login = _ => {
+    controller.login(args[3])
 }
 
 const error = (type = 1) => {

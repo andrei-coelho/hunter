@@ -78,12 +78,18 @@ module.exports =  {
         // console.log(clientes[0].accounts);
     },
 
+    login: async function(client){
+        
+        await start_list_clients(client);
+        const cli  = clientes.list[0];
+        await login(cli.getAccounts());
+
+    },
+
     build: async function(client, account, socialmedia){
     
         await start_list_clients(client);
         const cli  = clientes.list[0];
-
-        await login(cli.getAccounts());
         const accs = cli.accounts[socialmedia];
 
         var   acc;

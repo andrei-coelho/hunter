@@ -24,18 +24,28 @@ const
             await helper.sleep(1000);
 
             let elementPresent = false;
-    
+ 
             while(!elementPresent){
+
+                try {
+                    await driver.findElement(By.xpath("//*[@data-testid='ocfEnterTextTextInput']"))
+                    .sendKeys(driver.emailAccount, Key.ENTER);
+                    elementPresent = true;
+                } catch (error) {
+                    await helper.sleep(1000);
+                }
+
                try {
-                    await driver.findElement(By.name("text"));
+                    await driver.findElement(By.name("text"))
+                    .sendKeys(driver.emailAccount, Key.ENTER);
                     elementPresent = true;
                } catch(e){
                     await helper.sleep(1000);
                }
+
             }
 
-            await driver.findElement(By.name("text"))
-                .sendKeys(driver.emailAccount, Key.ENTER);
+            
             await helper.sleep(1000);
 
             elementPresent = false;
