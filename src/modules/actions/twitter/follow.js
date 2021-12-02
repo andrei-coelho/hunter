@@ -31,15 +31,27 @@ module.exports = async (perfilASeguir, conta, clientSlug) => {
 
     count = 0;
     elementPresent = false;
+
     while(!elementPresent){
+
         try {
+
             await driver.findElement(By.xpath("//*[@href='/"+perfilASeguir.slug+"/followers']"));
             let texto = await driver.findElement(By.xpath("//*[@href='/"+perfilASeguir.slug+"/followers']")).getText();
-            if(parseInt(texto.split(" ")[0].replace(/\./gi, "")) < 20){
-                // let resp = await request("")
-                return {follow:false, save:false};
+            
+            if(parseInt(texto.split(" ")[0].replace(/\./gi, "")) < 5){
+                
+                let resp = await request("actionsService/notFollowNow",{
+                    clientSlug:clientSlug,
+                    account_id:conta.conta_id,
+                    profileSlug: perfilASeguir.slug
+                })
+
+                return {follow:false, save:resp.code == 200};
             }
+
             elementPresent = true;
+
         } catch(e){
             await helper.sleep(1000);
             count++;
@@ -50,6 +62,27 @@ module.exports = async (perfilASeguir, conta, clientSlug) => {
         
     }
 
+    // curtir publicações...
+
+    count = 0;
+    curtiu = 0;
+    curtir = Math.round(Math.random() * (2 - 1) + 1); // curtir no máximo 2 publicações
+
+    // console.log(curtir);// apagar
+
+    while(true){
+        try {
+            if(count == 5 || curtiu >= curtir) break;
+            await driver.findElement(By.xpath("//*[@data-testid='like']")).click();
+            curtiu++;
+            await helper.sleep(1000);
+        } catch (error) {
+            await helper.sleep(1000);
+            count++;
+        }
+    }
+
+    // seguir...
     
     if(status){
         try {
@@ -61,23 +94,19 @@ module.exports = async (perfilASeguir, conta, clientSlug) => {
             .click()
 
         } catch(e){
-            console.log("Não foi possível clicar no objeto");
-            return {follow:false, save:false};
+            return {follow:false, save: false};
         }
         
     }
 
-   
     let resp = await request("actionsService/follow",{
         clientSlug:clientSlug,
         account_id:conta.conta_id,
         profileSlug: perfilASeguir.slug
     })
 
-    console.log(resp);
-
     console.log("seguiu: "+perfilASeguir.slug);
     
-    return {follow:true, save:resp.code == 200} ;
+    return {follow:true, save: (resp.code == 200)} ;
     
 }

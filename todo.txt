@@ -8,8 +8,8 @@ Todas as publicações estão dentro de
 e só há uma "section"!
 
 B) Curtir e Retwittar:
-Sempre haverá um [data-testid="status"] informando o status dos botões de ações.
-- [data-testid="like"] -  Não está curtido
-- [data-testid="unlike"] -  Está curtido
-- [data-testid="retweet"] -  Não está retwittado
-- [data-testid="unretweet"] -  Está retwittado
+Sempre haverá um [data-testid=$status] informando o status dos botões de ações.
+$status = "like"      - [data-testid="like"]      -  Não está curtido
+$status = "unlike"    - [data-testid="unlike"]    -  Está curtido
+$status = "retweet"   - [data-testid="retweet"]   -  Não está retwittado
+$status = "unretweet" - [data-testid="unretweet"] -  Está retwittado

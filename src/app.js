@@ -18,6 +18,8 @@ module.exports = _=> {
         case "-start": start(); break;
         case "-open": open(); break;
         case "-build": build(); break;
+        case "-browser": browser(); break;
+        case "-null-browser": nullBrowser(); break;
         case "-login": login(); break;
         case "-test": test(); break;
             
@@ -60,9 +62,15 @@ const test = _ => {
     (require('../test/'+file))(conf);
 }
 
-const login = _ => {
-    controller.login(args[3])
+
+const browser = _ => {
+    count_args >= 4 ?
+    controller.browser(args[3]) :
+    controller.browser()
 }
+
+const nullBrowser = _ => controller.nullBrowser()
+const login = _ =>  controller.login(args[3])
 
 const error = (type = 1) => {
     let msg = "";

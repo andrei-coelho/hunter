@@ -4,10 +4,9 @@ const
     config      = require("../../config"),
     fs          = require("fs");
 
-const constr = async function(account){
-    
-    let redeSocialLib = require('./'+account.redeSocial);
-   
+
+const driver = async function(){
+
     let status = await config().production;
     var driver = await new Builder().forBrowser('firefox');
     
@@ -18,6 +17,17 @@ const constr = async function(account){
     }
 
     driver = await driver.build();
+
+    return driver;
+
+}
+    
+const constr = async function(account){
+    
+    let redeSocialLib = require('./'+account.redeSocial);
+   
+    let driver = await driver();
+
     driver.redeSocial   = account.redeSocial;
     driver.emailAccount = account.email;
     driver.senhaAccount = account.senha;
@@ -65,4 +75,9 @@ const constr = async function(account){
 
 }
 
-module.exports = constr;
+
+
+module.exports = {
+    createByAccount: constr,
+    driver: driver
+};

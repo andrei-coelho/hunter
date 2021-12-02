@@ -39,7 +39,7 @@ start_list_clients = async (slug = "") => {
         
         for (let l = 0; l < resAc.data.length; l++) {
             let account = new AccountCliente(resAc.data[l]);
-            let driver  = await driverC(account)
+            let driver  = await driverC.createByAccount(account)
             account.setDriver(driver);
             cli.addAccount(account);
         }
@@ -105,6 +105,36 @@ module.exports =  {
 
         //console.log(cli, acc);
 
+    },
+
+    browser: async function(type, slug){
+        
+        await start_list_clients(slug);
+        const cli  = clientes.list[0];
+
+        switch (type) {
+            case "cliente":
+                await login(cli.getAccounts());
+                break;
+            
+            case "account":
+
+                const accs = cli.getAccounts();
+
+                for (let i = 0; i < accs.length; i++) {
+                    const acc = accs[i];
+                    if(acc.slug == slug) await login([acc]);
+                }
+                
+                break;
+
+            default:
+                break;
+        }
+    },
+
+    nullBrowser: async function (){
+        driverC.driver();
     },
 
     open: async function(client, account, socialmedia){
