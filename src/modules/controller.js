@@ -37,11 +37,18 @@ start_list_clients = async (slug = "") => {
             return;
         }
         
-        for (let l = 0; l < resAc.data.length; l++) {
+        console.log(resAc);
+
+        let totalAccs = resAc.data.length;
+
+        for (let l = 0; l < totalAccs; l++) {
+
             let account = new AccountCliente(resAc.data[l]);
             let driver  = await driverC.createByAccount(account)
+
             account.setDriver(driver);
             cli.addAccount(account);
+
         }
         
         cli.setProfiles(resPs.data);
@@ -79,7 +86,7 @@ module.exports =  {
     },
 
     login: async function(client){
-        
+
         await start_list_clients(client);
         const cli  = clientes.list[0];
         await login(cli.getAccounts());
@@ -100,10 +107,6 @@ module.exports =  {
         }
 
         require('./driver/'+socialmedia).build(acc, cli)
-
-        // require('.//'+socialmedia+'/build')(acc, cli)
-
-        //console.log(cli, acc);
 
     },
 
@@ -153,7 +156,7 @@ module.exports =  {
         let acct    = new AccountCliente(acc);
         let driver  = await driverC(acct)
         acct.setDriver(driver);
-        let obj = {};
+        let obj     = {};
         obj[socialmedia] = [acct];
 
         await login(obj);

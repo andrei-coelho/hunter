@@ -5,10 +5,10 @@ const
     fs          = require("fs");
 
 
-const driver = async function(){
+const driverC = async function(){
 
     let status = await config().production;
-    var driver = await new Builder().forBrowser('firefox');
+    let driver = await new Builder().forBrowser('firefox');
     
     //driver = driver.setFirefoxOptions(new firefox.Options().headless());
 
@@ -25,8 +25,7 @@ const driver = async function(){
 const constr = async function(account){
     
     let redeSocialLib = require('./'+account.redeSocial);
-   
-    let driver = await driver();
+    let driver = await driverC();
 
     driver.redeSocial   = account.redeSocial;
     driver.emailAccount = account.email;
@@ -59,7 +58,7 @@ const constr = async function(account){
     
         }, 1000);
     }
-
+    
     if(fs.existsSync(driver.cookieFile)) {
         await driver.get(redeSocialLib.url);
         let data = JSON.parse(fs.readFileSync(driver.cookieFile, 'utf8'));
@@ -68,7 +67,7 @@ const constr = async function(account){
         }   
     }
 
-    // await redeSocialLib.login(driver);
+    await redeSocialLib.login(driver);
     await driver.saveState();
 
     return driver;
@@ -79,5 +78,5 @@ const constr = async function(account){
 
 module.exports = {
     createByAccount: constr,
-    driver: driver
+    driver: driverC
 };

@@ -4,12 +4,10 @@ const request = require('../../../request'),
 
 const urlRedeSocial = "https://www.twitter.com/";
 
-module.exports = async (perfilASeguir, conta, clientSlug) => {
-
-    const driver = conta.driver;
+const segueEsse = async (perfilASeguir, driver, conta, clientSlug) => {
 
     await driver.get(urlRedeSocial+perfilASeguir.slug);
-    await helper.sleep(2000);
+    await helper.sleep(3000);
 
     let elementPresent = false;
     let status = true;
@@ -39,7 +37,7 @@ module.exports = async (perfilASeguir, conta, clientSlug) => {
             await driver.findElement(By.xpath("//*[@href='/"+perfilASeguir.slug+"/followers']"));
             let texto = await driver.findElement(By.xpath("//*[@href='/"+perfilASeguir.slug+"/followers']")).getText();
             
-            if(parseInt(texto.split(" ")[0].replace(/\./gi, "")) < 5){
+            if(parseInt(texto.split(" ")[0].replace(/\./gi, "")) == 0){
                 
                 let resp = await request("actionsService/notFollowNow",{
                     clientSlug:clientSlug,
@@ -66,18 +64,16 @@ module.exports = async (perfilASeguir, conta, clientSlug) => {
 
     count = 0;
     curtiu = 0;
-    curtir = Math.round(Math.random() * (2 - 1) + 1); // curtir no máximo 2 publicações
-
-    // console.log(curtir);// apagar
+    curtir = Math.round(Math.random() * (3 - 1) + 1); // curtir no máximo 2 publicações
 
     while(true){
         try {
             if(count == 5 || curtiu >= curtir) break;
             await driver.findElement(By.xpath("//*[@data-testid='like']")).click();
             curtiu++;
-            await helper.sleep(1000);
+            await helper.sleep(2000);
         } catch (error) {
-            await helper.sleep(1000);
+            await helper.sleep(2000);
             count++;
         }
     }
@@ -108,5 +104,35 @@ module.exports = async (perfilASeguir, conta, clientSlug) => {
     console.log("seguiu: "+perfilASeguir.slug);
     
     return {follow:true, save: (resp.code == 200)} ;
-    
 }
+
+module.exports = async (conta, clientSlug) => {
+
+    const perfisASeguir = conta.aSeguir; 
+    const driver = conta.driver;
+
+    const seconds = 174; // quantidade de segundos de espera por perfil
+    const totalContas = perfisASeguir.length;
+
+    const stats  = {
+        totalSeguido: 0,
+        totalErros: 0
+    }
+
+    const secAw = seconds * 1000; 
+
+    for (let i = 0; i < totalContas; i++) {
+        
+        const perfilASeguir = perfisASeguir[i];
+        const stts = await segueEsse(perfilASeguir, driver, conta, clientSlug).follow;
+        stts ? stats.totalSeguido++ : stats.totalErros++;
+        
+        // if(stts) helper.sleep(secAw);
+        await helper.sleep(secAw);
+    }
+    
+    return stats;
+
+}
+
+

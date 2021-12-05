@@ -9,11 +9,10 @@ module.exports = async cli => {
     const perfisASeguir = cli.profilesToFollow;
     const redes = Object.keys(contas);
 
-    const seconds = 174; // quantidade de segundos de espera por conta
-
     // variaveis a serem apagadas
-    const maxToFollow = 80; // maximo de seguidores para seguir em teste
-    var seguidorAtual = 0;
+    const maxToFollow = 20; // maximo de seguidores para seguir em teste
+    var   seguidorAtual = 0;
+    // até aqui tem que apagar
 
     for (let i = 0; i < redes.length; i++) {
         
@@ -28,9 +27,10 @@ module.exports = async cli => {
         const maxId = totalContas-1;
 
         // quantidade de milisegundos de espera no loop para a proxima ação da próxima conta
-        const secAw = (seconds - totalContas) * 1000; 
+        
         var atualId = 0;
 
+        
         for (let l = 0; l < perfisASeguirRedeSocial.length; l++) {
 
             if(atualId > maxId) atualId = 0;
@@ -38,25 +38,33 @@ module.exports = async cli => {
             let perfilASeguir = perfisASeguirRedeSocial[l];
             let contaAtual = contasRede[atualId];
             
-            
-            let status = await ac_seguir(perfilASeguir, contaAtual, cli.slug);
-
-            if(status.follow){
-                await helper.sleep(secAw);
+            if(contaAtual.aSeguir == undefined){
+                contaAtual.aSeguir = [];
             }
+
+            contaAtual.aSeguir.push(perfilASeguir);
 
             /* condicional de controle em tempo de teste */
-            if(seguidorAtual == maxToFollow){
+            if(seguidorAtual == maxToFollow * contasRede.length){
                 break;
             }
-
             seguidorAtual++; // apagar tb!
 
             atualId++;
             
         }
 
+        contasRede.forEach(async contaAtual => {
+           
+            let status = await ac_seguir(contaAtual, cli.slug);
+            console.log(contaAtual.email+" => { seguido: "+status.totalSeguido+" | erros: "+status.totalErros+" }");
+
+        });
+
     }
+
+
+
 
     // pegar as ações disponíveis das redes sociais do cliente com o limite diário disponível    
     // # Cliente.prototype.getActionsClient()

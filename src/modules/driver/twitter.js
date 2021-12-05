@@ -20,6 +20,12 @@ const
 
             await helper.sleep(1500);
 
+            let stts =  await model.checkLogin(driver);
+            if(stts) {
+                await driver.saveState();
+                return;
+            }
+
             await driver.get(model['url']+"login");
             await helper.sleep(1000);
 
@@ -45,7 +51,6 @@ const
 
             }
 
-            
             await helper.sleep(1000);
 
             elementPresent = false;
@@ -68,13 +73,21 @@ const
         },
     
         checkLogin: async driver =>{
-            var status = true;
+            
+            var status = false;
             await helper.sleep(2000);
-           
-            try {
-                await driver.findElement(By.xpath("//*[@data-testid='AppTabBar_Home_Link']"));
-            } catch (error) {
-                status = false;
+
+            let test = 0;
+
+            while(test < 5){
+                try {
+                    await driver.findElement(By.xpath("//*[@data-testid='AppTabBar_Home_Link']"));
+                    status = true;
+                    test = 5;
+                } catch (error) {
+                    test++;
+                    await helper.sleep(1000);
+                }
             }
             return status;
         },
